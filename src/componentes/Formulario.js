@@ -1,7 +1,45 @@
-import React from 'react'
-const  Formulario = () => {
+import React, {Fragment, useState} from 'react'
+import { calcularTotal } from '../helpers';
+
+const  Formulario = ({cantidad, guardarCantidad, plazo, guardarPlazo}) => {
+
+     //Definir state
+    const [error, guardarError] = useState(false);
+   
+    const leerCantidad = (e) => {
+         // console.log(e.target.value)
+         guardarCantidad(parseInt(e.target.value));
+     }
+
+     const leerPlazo = (e) => {
+        // console.log(e.target.value)
+        guardarPlazo(parseInt(e.target.value));
+    }
+
+    //Cuando el usuario hace submit
+    const calcularPrestamo = (e) => {
+        e.preventDefault();
+        console.log("Enviando Formulario")
+
+        //Validar el formulario
+            if(cantidad === 0 || plazo === "" ){
+                console.log("Hay un error");
+                guardarError(true);
+                return;
+            }
+            //elimina error previo
+            guardarError(false);
+
+           //Realizar cotizacion Funcion esta el helper.js
+            const total = calcularTotal(cantidad, plazo);
+            console.log(total);
+    }
+
     return (
-<fornm>
+        <Fragment>
+<form onSubmit={calcularPrestamo}>
+    {cantidad}
+    {plazo}
     <div className='row'>
         <div>
             <label>Cantidad Prestamo</label>
@@ -9,12 +47,13 @@ const  Formulario = () => {
                 className='u-full-width'
                 type='number'
                 placeholder='Ejemplo: 3000'
+                onChange={leerCantidad}
             />
         </div>
         <div>
             <label>Plazo a Pagar</label>
-            <select className='u-full-width'>
-                <option value="">Seleccionar</option>
+            <select className='u-full-width' onChange={leerPlazo}>
+                 <option value="">Seleccionar</option>
                 <option value="3">3 Meses</option>
                 <option value="6">6 Meses</option>
                 <option value="12">12 Meses</option>
@@ -29,9 +68,11 @@ const  Formulario = () => {
             /> 
         </div>
     </div>
-</fornm>
-        
-      );
+</form>
+
+{(error) ? <p className="error">Todos los campos son obligatorios</p> : "" }
+</Fragment>
+);
 }
  
 export default Formulario;
