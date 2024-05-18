@@ -32,8 +32,7 @@ h1 {
   height: 100%;
 }
 
-form,
-.mensaje {
+form, .mensaje, .error  {
   padding: 2rem;
   max-width: 600px;
   margin: 0 auto;
@@ -45,7 +44,13 @@ form,
 
 .resultado {
   border: 2px solid #000bd7;
-  padding: 3rem ;
+  padding: 1rem ;
+}
+
+.error {
+  border: 2px solid red;
+  padding: 1rem ;
+  text-align: center;
 }
 
 form label {
